@@ -33,7 +33,7 @@ jobs:
 
       - name: Build iOS app
         run: |
-          xcodebuild archive -workspace TradeFuture.xcworkspace -scheme TradeFuture -configuration Release -archivePath ./build/TradeFuture.xcarchive
+          xcodebuild archive -workspace ios/TradeFuture.xcworkspace -scheme TradeFuture -configuration Release -archivePath ./build/TradeFuture.xcarchive
 
       - name: Archive build artifacts
         uses: actions/upload-artifact@v3
