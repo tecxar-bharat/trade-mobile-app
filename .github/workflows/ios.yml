@@ -1,46 +1,59 @@
-name: iOS Build
+name: Build and Upload to Diawi
 
 on:
   push:
+    branches:
+      - main
+  pull_request:
     branches:
       - main
 
 jobs:
   build:
     runs-on: macos-latest
+    
+    env:
+      DIAWI_TOKEN: ${{ secrets.DIAWI_TOKEN }}
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v2
         with:
           node-version: '18'
 
       - name: Install dependencies
-        run: yarn install
+        run: npm install
 
       - name: Install CocoaPods
         run: |
-          sudo gem install cocoapods
           cd ios
           pod install
 
-      - name: Bundle React Native code and images
-        run: |
-          npx react-native bundle --platform ios --dev false --entry-file index.js --bundle-output ios/main.jsbundle --assets-dest ios
-
-      - name: Build iOS app
-        run: |
-          xcodebuild -workspace ios/TradeFuture.xcworkspace \
-                     -scheme TradeFuture \
-                     -sdk iphonesimulator \
-                     -configuration Release \
-                     -derivedDataPath build
-
-      - name: Archive build artifacts
-        uses: actions/upload-artifact@v3
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          name: ios-build
-          path: build/Build/Products/Release-iphonesimulator/
+          ruby-version: '2.7'
+
+      - name: Install Fastlane
+        run: |
+          gem install bundler
+          bundle install
+
+      - name: Build and upload iOS app to Diawi
+       run: |
+          cd ios
+          bundle exec fastlane upload_ios_to_diawi
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+
+      - name: Build and upload Android app to Diawi
+        run: |
+          cd android
+          bundle exec fastlane upload_android_to_diawi
