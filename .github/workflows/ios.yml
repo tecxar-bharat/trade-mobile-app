@@ -22,7 +22,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '18'
+          node-version: '14'
 
       - name: Install dependencies
         run: npm install
@@ -43,7 +43,7 @@ jobs:
           bundle install
 
       - name: Build and upload iOS app to Diawi
-       run: |
+        run: |
           cd ios
           bundle exec fastlane upload_ios_to_diawi
 
