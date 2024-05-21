@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "193878597278",
+    "project_id": "Trade Future",
+    "storage_bucket": "com.tradeFuture.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:193878597278:android:d21a93c179a88370a5258f",
+        "android_client_info": {
+          "package_name": "com.tradeFuture.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGJe_foYAjs6-iP91yaM_d99Lqe3cMnJ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

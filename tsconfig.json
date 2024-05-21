@@ -1,0 +1,27 @@
+{
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react",
+    "baseUrl": "." ,
+    "paths": {
+      "@assets/*": ["src/assets/*"],
+      "@common/*": ["src/common/*"],
+      "@fields/*": ["src/components/fields/*"],
+      "@commonConstants/*": ["src/commonConstants/*"],
+      "@commonComponents/*": ["src/components/common/*"],
+      "@components/*": ["src/components/*"],
+      "@config/*": ["src/config/*"],
+      "@pages/*": ["src/pages/*"],
+      "@db/*": ["src/db/*"],
+      "@interfaces/*": ["src/interfaces/*"],
+      "@navigation/*": ["src/navigation/*"],
+      "@plugins/*": ["src/plugins/*"],
+      "@services/*": ["src/services/*"],
+      "@store/*": ["src/store/*"],
+      "@reducers/*": ["src/store/reducers/*"],
+      "@themes/*": ["src/themes/*"],
+      "@utils/*": ["src/utils/*"],
+      "@i18n/*": ["src/i18n/*"]
+    }
+  }
+}
