@@ -34,7 +34,7 @@ jobs:
       - name: Build iOS app
         run: |
           xcodebuild -workspace ios/TradeFuture.xcworkspace \
-                     -scheme YourSchemeName \
+                     -scheme TradeFuture \
                      -sdk iphonesimulator \
                      -configuration Release \
                      -derivedDataPath build
