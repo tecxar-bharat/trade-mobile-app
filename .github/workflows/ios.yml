@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     runs-on: macos-latest
-    
+
     env:
       DIAWI_TOKEN: ${{ secrets.DIAWI_TOKEN }}
 
@@ -27,26 +27,26 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Install CocoaPods
-        run: |
-          cd ios
-          pod install
+      # - name: Install CocoaPods
+      #   run: |
+      #     cd ios
+      #     pod install
 
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '2.7'
+      # - name: Set up Ruby
+      #   uses: ruby/setup-ruby@v1
+      #   with:
+      #     ruby-version: '2.7'
 
       - name: Install Fastlane
         run: |
           gem install bundler -v 2.4.22
           bundle install
 
-      - name: Build and upload iOS app to Diawi
-        run: |
-          cd ios
-          bundle exec fastlane fetch_certificates
-          bundle exec fastlane upload_ios_to_diawi
+      # - name: Build and upload iOS app to Diawi
+      #   run: |
+      #     cd ios
+      #     bundle exec fastlane fetch_certificates
+      #     bundle exec fastlane upload_ios_to_diawi
 
       - name: Set up JDK
         uses: actions/setup-java@v2
