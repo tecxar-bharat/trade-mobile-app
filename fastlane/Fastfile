@@ -25,3 +25,20 @@ platform :ios do
     sh "curl https://upload.diawi.com/ -F token=#{ENV['DIAWI_TOKEN']} -F file=@./build/TradeFuture.ipa"
   end
 end
+
+
+platform :android do
+  desc "Build Android app"
+  lane :build_android do
+    gradle(
+      task: "assembleRelease",
+      project_dir: "./android"
+    )
+  end
+
+  desc "Upload Android app to Diawi"
+  lane :upload_android_to_diawi do
+    build_android
+    sh "curl https://upload.diawi.com/ -F token=#{ENV['DIAWI_TOKEN']} -F file=@./android/app/build/outputs/apk/release/app-release.apk"
+  end
+end

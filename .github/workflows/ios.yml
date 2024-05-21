@@ -31,6 +31,7 @@ jobs:
       #   run: |
       #     cd ios
       #     pod install
+      #     cd ..
 
       # - name: Set up Ruby
       #   uses: ruby/setup-ruby@v1
@@ -44,7 +45,6 @@ jobs:
 
       # - name: Build and upload iOS app to Diawi
       #   run: |
-      #     cd ios
       #     bundle exec fastlane fetch_certificates
       #     bundle exec fastlane upload_ios_to_diawi
 
@@ -55,6 +55,4 @@ jobs:
           java-version: '11'
 
       - name: Build and upload Android app to Diawi
-        run: |
-          cd android
-          bundle exec fastlane upload_android_to_diawi
+        run: bundle exec fastlane upload_android_to_diawi
