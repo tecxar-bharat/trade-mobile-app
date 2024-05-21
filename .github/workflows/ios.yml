@@ -33,7 +33,7 @@ jobs:
 
       - name: Build iOS app
         run: |
-          xcodebuild -workspace ios/YourApp.xcworkspace \
+          xcodebuild -workspace ios/TradeFuture.xcworkspace \
                      -scheme YourSchemeName \
                      -sdk iphonesimulator \
                      -configuration Release \
