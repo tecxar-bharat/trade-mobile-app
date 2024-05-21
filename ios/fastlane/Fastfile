@@ -1,6 +1,16 @@
 default_platform(:ios)
 
 platform :ios do
+
+  desc "Fetch certificates and provisioning profiles"
+  lane :fetch_certificates do
+    match(
+      type: "adhoc",  # Or "appstore", "development", "enterprise"
+      readonly: false
+    )
+  end
+
+  
   desc "Build iOS app"
   lane :build_ios do
     build_app(

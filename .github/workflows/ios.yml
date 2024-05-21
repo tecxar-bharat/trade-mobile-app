@@ -45,6 +45,7 @@ jobs:
       - name: Build and upload iOS app to Diawi
         run: |
           cd ios
+          bundle exec fastlane fetch_certificates
           bundle exec fastlane upload_ios_to_diawi
 
       - name: Set up JDK
