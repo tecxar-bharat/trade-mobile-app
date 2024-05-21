@@ -39,7 +39,7 @@ jobs:
 
       - name: Install Fastlane
         run: |
-          gem install bundler
+          gem install bundler -v 3.0.0
           bundle install
 
       - name: Build and upload iOS app to Diawi
