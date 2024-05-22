@@ -33,7 +33,8 @@ jobs:
           bundle install
 
       - name: Run fastlane build
-        run: cd ios
+        run: |
+          cd ios
           bundle exec fastlane build_ios
           mv output ..
           cd ..
