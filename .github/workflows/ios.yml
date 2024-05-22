@@ -18,18 +18,18 @@ jobs:
         with:
           node-version: '18'
 
-      # - name: Install dependencies
-      #   run: yarn install
+      - name: Install dependencies
+        run: yarn install
 
-      # - name: Install CocoaPods
-      #   run: |
-      #     sudo gem install cocoapods
-      #     cd ios
-      #     pod install
+      - name: Install CocoaPods
+        run: |
+          sudo gem install cocoapods
+          cd ios
+          pod install
 
-      # - name: Bundle React Native code and images
-      #   run: |
-      #     npx react-native bundle --platform ios --dev false --entry-file index.js --bundle-output ios/main.jsbundle --assets-dest ios
+      - name: Bundle React Native code and images
+        run: |
+          npx react-native bundle --platform ios --dev false --entry-file index.js --bundle-output ios/main.jsbundle --assets-dest ios
 
       - name: Create Provisioning Profiles directory
         run: mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
@@ -57,21 +57,21 @@ jobs:
           IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
 
-        # - name: Build iOS app
-        #   run: |
-        #     xcodebuild archive -workspace ios/TradeFuture.xcworkspace -scheme TradeFuture -configuration Release -archivePath ./ios/build/TradeFuture.xcarchive
-        #   env:
-        #     APPLE_DEVELOPER_TEAM_ID: ${{ secrets.APPLE_DEVELOPER_TEAM_ID }}
+        - name: Build iOS app
+          run: |
+            xcodebuild archive -workspace ios/TradeFuture.xcworkspace -scheme TradeFuture -configuration Release -archivePath ./ios/build/TradeFuture.xcarchive
+          env:
+            APPLE_DEVELOPER_TEAM_ID: ${{ secrets.APPLE_DEVELOPER_TEAM_ID }}
 
-        # - name: Export IPA
-        #   run: |
-        #     xcodebuild -exportArchive \
-        #                -archivePath ios/build/TradeFuture.xcarchive \
-        #                -exportOptionsPlist ios/exportOptions.plist \
-        #                -exportPath ios/build/TradeFuture \
+        - name: Export IPA
+          run: |
+            xcodebuild -exportArchive \
+                       -archivePath ios/build/TradeFuture.xcarchive \
+                       -exportOptionsPlist ios/exportOptions.plist \
+                       -exportPath ios/build/TradeFuture \
 
-        # - name: Archive build artifacts
-        # uses: actions/upload-artifact@v3
-        # with:
-        #   name: ios-build
-        #   path: ios/build/TradeFuture
+        - name: Archive build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ios-build
+          path: ios/build/TradeFuture
