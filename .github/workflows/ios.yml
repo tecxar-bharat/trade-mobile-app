@@ -37,28 +37,39 @@ jobs:
         env:
           IOS_PROVISIONING_PROFILE: ${{ secrets.IOS_PROVISIONING_PROFILE }}
 
-      - name: Decode and setup certificate
-        run: |
-          echo $IOS_CERTIFICATE_P12 | base64 --decode > ios/certificate.p12
-        env:
-          IOS_CERTIFICATE_P12: ${{ secrets.IOS_CERTIFICATE_P12 }}
-
       - name: Install certificate
         run: |
-          security create-keychain -p "" build.keychain
-          security default-keychain -s build.keychain
-          security unlock-keychain -p "" build.keychain
-          security import ios/certificate.p12 -t agg -k ~/Library/Keychains/build.keychain -P $IOS_CERTIFICATE_PASSWORD -A
-          security set-key-partition-list -S apple-tool:,apple: -s -k "" build.keychain
+          # create variables
+          CERTIFICATE_PATH=ios/build_certificate.p12
+          PP_PATH=ios/build_pp.mobileprovision
+          KEYCHAIN_PATH=ios/app-signing.keychain-db
+
+          # import certificate and provisioning profile from secrets
+          echo -n "$IOS_CERTIFICATE_P12" | base64 --decode -o $CERTIFICATE_PATH
+          echo -n "$IOS_PROVISIONING_PROFILE" | base64 --decode -o $PP_PATH
+
+          # create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          # import certificate to keychain
+          security import $CERTIFICATE_PATH -P "$IOS_CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+
+          # apply provisioning profile
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
         env:
+          IOS_CERTIFICATE_P12: ${{ secrets.IOS_CERTIFICATE_P12 }}
           IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
+          IOS_PROVISIONING_PROFILE: ${{ secrets.IOS_PROVISIONING_PROFILE }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
 
       - name: Build iOS app
         run: |
-          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          cp ~/Library/MobileDevice/Provisioning\ Profiles/tradeFuture.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
-          security set-key-partition-list -S apple-tool:,apple: -s -k "" login.keychain
-          xcodebuild archive -workspace ios/TradeFuture.xcworkspace -scheme TradeFuture -configuration Release -archivePath ./ios/build/TradeFuture.xcarchive -allowProvisioningUpdates
+          # security set-key-partition-list -S apple-tool:,apple: -s -k "" login.keychain
+          xcodebuild archive -workspace ios/TradeFuture.xcworkspace -scheme TradeFuture -configuration Release -archivePath ./ios/build/TradeFuture.xcarchive
         env:
           APPLE_DEVELOPER_TEAM_ID: ${{ secrets.APPLE_DEVELOPER_TEAM_ID }}
 
@@ -68,7 +79,6 @@ jobs:
                      -archivePath ios/build/TradeFuture.xcarchive \
                      -exportOptionsPlist ios/exportOptions.plist \
                      -exportPath ios/build/TradeFuture \
-                     -allowProvisioningUpdates
 
       - name: Archive build artifacts
         uses: actions/upload-artifact@v3
