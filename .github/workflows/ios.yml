@@ -59,7 +59,7 @@ jobs:
 
       - name: Build iOS app
         run: |
-          xcodebuild archive -workspace ios/TradeFuture.xcworkspace -scheme TradeFuture -configuration Release -archivePath ./ios/build/TradeFuture.xcarchive -allowProvisioningUpdates
+          xcodebuild archive -workspace ios/TradeFuture.xcworkspace -scheme TradeFuture -configuration Release -archivePath ./ios/build/TradeFuture.xcarchive
         env:
           APPLE_DEVELOPER_TEAM_ID: ${{ secrets.APPLE_DEVELOPER_TEAM_ID }}
 
@@ -69,7 +69,6 @@ jobs:
                     -archivePath ios/build/TradeFuture.xcarchive \
                     -exportOptionsPlist ios/exportOptions.plist \
                     -exportPath ios/build/TradeFuture \
-                    -allowProvisioningUpdates
 
       - name: Archive build artifacts
         uses: actions/upload-artifact@v3
