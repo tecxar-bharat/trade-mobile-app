@@ -67,6 +67,7 @@ jobs:
         run: |
           cd ios
           bundle exec fastlane build_ios
+          cat /Users/runner/Library/Logs/gym/TradeFuture-TradeFuture.log
           mv output ..
           cd ..
         env:
