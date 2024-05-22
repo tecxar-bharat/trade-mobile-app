@@ -29,8 +29,8 @@ platform :ios do
 
     update_code_signing_settings(
       path:"#{project_name}.xcodeproj",
-      use_automatic_signing: false,
-      profile_name: prov_profile,
+      use_automatic_signing: true,
+      # profile_name: prov_profile,
       # profile_uuid: prov_profile_uuid
     )
 
