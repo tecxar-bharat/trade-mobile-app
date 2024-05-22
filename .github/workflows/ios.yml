@@ -31,10 +31,35 @@ jobs:
         run: |
           npx react-native bundle --platform ios --dev false --entry-file index.js --bundle-output ios/main.jsbundle --assets-dest ios
 
+      - name: Decode and setup provisioning profile
+        run: |
+          echo $IOS_PROVISIONING_PROFILE | base64 --decode > ios/tradeFuture.mobileprovision
+        env:
+          IOS_PROVISIONING_PROFILE: ${{ secrets.IOS_PROVISIONING_PROFILE }}
+
+      - name: Decode and setup certificate
+        run: |
+          echo $IOS_CERTIFICATE_P12 | base64 --decode > ios/certificate.p12
+        env:
+          IOS_CERTIFICATE_P12: ${{ secrets.IOS_CERTIFICATE_P12 }}
+
+      - name: Install certificate
+        run: |
+          security create-keychain -p "" build.keychain
+          security default-keychain -s build.keychain
+          security unlock-keychain -p "" build.keychain
+          security import ios/certificate.p12 -t agg -k ~/Library/Keychains/build.keychain -P $IOS_CERTIFICATE_PASSWORD -A
+          security set-key-partition-list -S apple-tool:,apple: -s -k "" build.keychain
+        env:
+          IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
+
       - name: Build iOS app
         run: |
-          xcodebuild archive -workspace ios/TradeFuture.xcworkspace -scheme TradeFuture -configuration Release -archivePath ./ios/build/TradeFuture.xcarchive -allowProvisioningUpdates
-          xcodebuild -exportArchive -archivePath ./ios/build/TradeFuture.xcarchive -exportOptionsPlist ./ios/exportOptions.plist -exportPath ./ios/build/TradeFuture -allowProvisioningUpdates
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp ios/tradeFuture.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+          cd ios
+          xcodebuild archive -workspace TradeFuture.xcworkspace -scheme TradeFuture -configuration Release -archivePath ./build/TradeFuture.xcarchive -allowProvisioningUpdates
+          xcodebuild -exportArchive -archivePath ./build/TradeFuture.xcarchive -exportOptionsPlist ./exportOptions.plist -exportPath ./build/TradeFuture -allowProvisioningUpdates
 
       - name: Archive build artifacts
         uses: actions/upload-artifact@v3
