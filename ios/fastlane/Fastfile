@@ -57,13 +57,13 @@ platform :ios do
         #   "com.tradeFuture.app" => prov_profile
         # }
       },
-      xcargs: [
-        # "PROVISIONING_PROFILE_SPECIFIER='#{prov_profile}'",
-        # "PROVISIONING_PROFILE_SPECIFIER='DevOps - App Store Distribution'",
-        "CODE_SIGN_STYLE=Manual",
-        # "CODE_SIGN_IDENTITY='iPhone Distribution: Insite Work Pty Ltd (G77MP8SP8H)'"
-        "CODE_SIGN_IDENTITY='#{signing_identity}'"
-      ].join(" ")
+      # xcargs: [
+      #   # "PROVISIONING_PROFILE_SPECIFIER='#{prov_profile}'",
+      #   # "PROVISIONING_PROFILE_SPECIFIER='DevOps - App Store Distribution'",
+      #   "CODE_SIGN_STYLE=Manual",
+      #   # "CODE_SIGN_IDENTITY='iPhone Distribution: Insite Work Pty Ltd (G77MP8SP8H)'"
+      #   "CODE_SIGN_IDENTITY='#{signing_identity}'"
+      # ].join(" ")
     )
     sh "curl https://upload.diawi.com/ -F token=#{ENV['DIAWI_TOKEN']} -F file=@./output/package/insitework.ipa"
 
