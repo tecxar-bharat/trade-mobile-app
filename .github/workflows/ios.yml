@@ -56,13 +56,22 @@ jobs:
       - name: Build iOS app
         run: |
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          cp ios/tradeFuture.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
-          cd ios
-          xcodebuild archive -workspace TradeFuture.xcworkspace -scheme TradeFuture -configuration Release -archivePath ./build/TradeFuture.xcarchive -allowProvisioningUpdates
-          xcodebuild -exportArchive -archivePath ./build/TradeFuture.xcarchive -exportOptionsPlist ./exportOptions.plist -exportPath ./build/TradeFuture -allowProvisioningUpdates
+          cp ~/Library/MobileDevice/Provisioning\ Profiles/tradeFuture.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+          security set-key-partition-list -S apple-tool:,apple: -s -k "" login.keychain
+          xcodebuild archive -workspace ios/TradeFuture.xcworkspace -scheme TradeFuture -configuration Release -archivePath ./ios/build/TradeFuture.xcarchive -allowProvisioningUpdates
+        env:
+          APPLE_DEVELOPER_TEAM_ID: ${{ secrets.APPLE_DEVELOPER_TEAM_ID }}
+
+      - name: Export IPA
+        run: |
+          xcodebuild -exportArchive \
+                     -archivePath ios/build/TradeFuture.xcarchive \
+                     -exportOptionsPlist ios/exportOptions.plist \
+                     -exportPath ios/build/TradeFuture \
+                     -allowProvisioningUpdates
 
       - name: Archive build artifacts
         uses: actions/upload-artifact@v3
         with:
           name: ios-build
-          path: ios/build/TradeFuture/TradeFuture.ipa
+          path: ios/build/TradeFuture
