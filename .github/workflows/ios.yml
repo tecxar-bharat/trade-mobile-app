@@ -27,6 +27,11 @@ jobs:
           cd ios
           pod install
 
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+
       - name: Install Fastlane
         run: |
           gem install bundler -v 2.4.22
