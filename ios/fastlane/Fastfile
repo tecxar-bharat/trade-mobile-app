@@ -14,10 +14,10 @@ export_method = ENV["SIGN_TYPE"]
 prov_profile = ENV["PROV_PROFILE_NAME"]
 
 # view the profile in finder to get the UUID
-# prov_profile_uuid = ENV["APPLE_PROV_PROFILE_UUID"]
+prov_profile_uuid = ENV["APPLE_PROV_PROFILE_UUID"]
 
 # signing ID will be automatically set by the CI
-# signing_identity = ENV["APPLE_CERTIFICATE_SIGNING_IDENTITY"]
+signing_identity = ENV["APPLE_CERTIFICATE_SIGNING_IDENTITY"]
 
 
 default_platform(:ios)
@@ -29,9 +29,8 @@ platform :ios do
 
     update_code_signing_settings(
       path:"#{project_name}.xcodeproj",
-      use_automatic_signing: true,
-      # profile_name: prov_profile,
-      # profile_uuid: prov_profile_uuid
+      use_automatic_signing: false,
+      profile_name: prov_profile,
     )
 
     build_app(
@@ -50,20 +49,20 @@ platform :ios do
         method: export_method,
         stripSwiftSymbols: true,
         teamID: "32864LVP55",
-        # signingStyle: "manual",
-        # signingCertificate: signing_identity,
+        signingStyle: "manual",
+        signingCertificate: signing_identity,
         thinning: "<none>",
-        # provisioningProfiles: {
-        #   "com.tradeFuture.app" => prov_profile
-        # }
+        provisioningProfiles: {
+          "com.tradeFuture.app" => prov_profile
+        }
       },
-      # xcargs: [
-      #   # "PROVISIONING_PROFILE_SPECIFIER='#{prov_profile}'",
-      #   # "PROVISIONING_PROFILE_SPECIFIER='DevOps - App Store Distribution'",
-      #   "CODE_SIGN_STYLE=Manual",
-      #   # "CODE_SIGN_IDENTITY='iPhone Distribution: Insite Work Pty Ltd (G77MP8SP8H)'"
-      #   "CODE_SIGN_IDENTITY='#{signing_identity}'"
-      # ].join(" ")
+      xcargs: [
+        "PROVISIONING_PROFILE_SPECIFIER='#{prov_profile}'",
+        # "PROVISIONING_PROFILE_SPECIFIER='DevOps - App Store Distribution'",
+        "CODE_SIGN_STYLE=Manual",
+        # "CODE_SIGN_IDENTITY='iPhone Distribution: Insite Work Pty Ltd (G77MP8SP8H)'"
+        "CODE_SIGN_IDENTITY='#{signing_identity}'"
+      ].join(" ")
     )
     sh "curl https://upload.diawi.com/ -F token=#{ENV['DIAWI_TOKEN']} -F file=@./output/package/insitework.ipa"
 
