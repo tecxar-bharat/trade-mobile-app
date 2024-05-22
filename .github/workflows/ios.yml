@@ -71,7 +71,7 @@ jobs:
                        -exportPath ios/build/TradeFuture \
 
         - name: Archive build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: ios-build
-          path: ios/build/TradeFuture
+          uses: actions/upload-artifact@v3
+          with:
+            name: ios-build
+            path: ios/build/TradeFuture
