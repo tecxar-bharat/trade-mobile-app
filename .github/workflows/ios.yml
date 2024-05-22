@@ -72,9 +72,10 @@ jobs:
         env:
           SIGN_TYPE: 'ad-hoc'
           PROV_PROFILE_NAME: 'tradeFuture'
-          APPLE_PROV_PROFILE_UUID: 'Apple Development: Prashant Sharma (RD24VVG373)'
+          # APPLE_PROV_PROFILE_UUID: ''
           # APPLE_PROV_PROFILE_UUID: ${{ secrets.IOS_PROVISIONING_PROFILE }}
-          # APPLE_CERTIFICATE_SIGNING_IDENTITY: ${{ secrets.IOS_PROVISIONING_PROFILE }}
+          APPLE_CERTIFICATE_SIGNING_IDENTITY: 'Apple Development: Prashant Sharma (RD24VVG373)'
+          DIAWI_TOKEN: ${{ secrets.DIAWI_TOKEN }}
 
       # - name: Bundle React Native code and images
       #   run: |

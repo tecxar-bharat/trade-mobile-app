@@ -14,7 +14,7 @@ export_method = ENV["SIGN_TYPE"]
 prov_profile = ENV["PROV_PROFILE_NAME"]
 
 # view the profile in finder to get the UUID
-prov_profile_uuid = ENV["APPLE_PROV_PROFILE_UUID"]
+# prov_profile_uuid = ENV["APPLE_PROV_PROFILE_UUID"]
 
 # signing ID will be automatically set by the CI
 signing_identity = ENV["APPLE_CERTIFICATE_SIGNING_IDENTITY"]
