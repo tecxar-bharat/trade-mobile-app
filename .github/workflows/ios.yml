@@ -63,9 +63,9 @@ jobs:
 
       - name: Install Apple provisioning profile
         run: |
-          echo "${{ secrets.IOS_PROVISIONING_PROFILE }}" | base64 --decode > profile.mobileprovision
+          echo "${{ secrets.IOS_PROVISIONING_PROFILE }}" | base64 --decode > tradeFuture.mobileprovision
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles/
-          cp profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+          cp tradeFuture.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
 
       # - name: Install certificate
       #   run: |
@@ -87,7 +87,7 @@ jobs:
           cd ..
         env:
           SIGN_TYPE: 'ad-hoc'
-          PROV_PROFILE_NAME: 'tradeFuture'
+          PROV_PROFILE_NAME: 'TradeFuture'
           APPLE_CERTIFICATE_SIGNING_IDENTITY: 'Apple Distribution: TECXAR CONSULTANTS PRIVATE LIMITED (32864LVP55)'
           DIAWI_TOKEN: 'ayrmyP77RZ13bxeiEJWYQMLNsHY0sjUnRSpkPDzNKl'
           TEAM_ID: '32864LVP55'

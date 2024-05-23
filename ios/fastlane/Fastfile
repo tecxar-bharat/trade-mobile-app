@@ -11,7 +11,7 @@ intermediates_path = "#{cached_derived_data_path}/Build/Intermediates.noindex/Ar
 export_method = 'ad-hoc'
 
 # prov_profile is the name of the provisioning profile - ie: "DevOps Distribution v2"
-prov_profile = 'tradeFuture'
+prov_profile = 'TradeFuture'
 
 # view the profile in finder to get the UUID
 # prov_profile_uuid = ENV["APPLE_PROV_PROFILE_UUID"]
