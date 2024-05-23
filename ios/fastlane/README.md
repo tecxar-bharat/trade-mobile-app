@@ -15,14 +15,6 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
-### ios fetch_certificates
-
-```sh
-[bundle exec] fastlane ios fetch_certificates
-```
-
-Fetch certificates and provisioning profiles
-
 ### ios build_ios
 
 ```sh
@@ -30,14 +22,6 @@ Fetch certificates and provisioning profiles
 ```
 
 Build iOS app
-
-### ios upload_ios_to_diawi
-
-```sh
-[bundle exec] fastlane ios upload_ios_to_diawi
-```
-
-Upload iOS app to Diawi
 
 ----
 

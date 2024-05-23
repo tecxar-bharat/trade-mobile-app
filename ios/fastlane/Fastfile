@@ -8,16 +8,20 @@ cache_folder = File.expand_path("#{cached_derived_data_path}/Build/Intermediates
 intermediates_path = "#{cached_derived_data_path}/Build/Intermediates.noindex/ArchiveIntermediates/#{project_name}"
 
 # export_method is either "app-store" or "ad-hoc" depending on where its being sent.
-export_method = ENV["SIGN_TYPE"]
+export_method = 'ad-hoc'
 
 # prov_profile is the name of the provisioning profile - ie: "DevOps Distribution v2"
-prov_profile = ENV["PROV_PROFILE_NAME"]
+prov_profile = 'tradeFuture'
 
 # view the profile in finder to get the UUID
 # prov_profile_uuid = ENV["APPLE_PROV_PROFILE_UUID"]
 
 # signing ID will be automatically set by the CI
 signing_identity = ENV["APPLE_CERTIFICATE_SIGNING_IDENTITY"]
+
+
+diawi_token = ENV['DIAWI_TOKEN']
+teamID = ENV['TEAM_ID']
 
 
 default_platform(:ios)
@@ -40,7 +44,7 @@ platform :ios do
       export_method: export_method,
       output_directory: "output/package",
       archive_path: "output/archive",
-      export_team_id: "32864LVP55",
+      export_team_id: teamID,
       export_xcargs: "-allowProvisioningUpdates",
       export_options: {
         compileBitcode: false,
@@ -48,7 +52,7 @@ platform :ios do
         uploadSymbols: false,
         method: export_method,
         stripSwiftSymbols: true,
-        teamID: "32864LVP55",
+        teamID: teamID,
         signingStyle: "manual",
         signingCertificate: signing_identity,
         thinning: "<none>",
@@ -58,13 +62,11 @@ platform :ios do
       },
       xcargs: [
         "PROVISIONING_PROFILE_SPECIFIER='#{prov_profile}'",
-        # "PROVISIONING_PROFILE_SPECIFIER='DevOps - App Store Distribution'",
         "CODE_SIGN_STYLE=Manual",
-        # "CODE_SIGN_IDENTITY='iPhone Distribution: Insite Work Pty Ltd (G77MP8SP8H)'"
         "CODE_SIGN_IDENTITY='#{signing_identity}'"
       ].join(" ")
     )
-    sh "curl https://upload.diawi.com/ -F token=#{ENV['DIAWI_TOKEN']} -F file=@./output/package/insitework.ipa"
+    sh "curl https://upload.diawi.com/ -F token=#{diawi_token} -F file=@./output/package/TradeFuture.ipa"
 
   end
 
