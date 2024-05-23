@@ -37,31 +37,46 @@ jobs:
           gem install bundler -v 2.4.22
           bundle install
 
-      - name: Create Provisioning Profiles directory
-        run: mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+      # - name: Create Provisioning Profiles directory
+      #   run: mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
 
-      - name: Decode and copy provisioning profile
-        run: |
-          echo $IOS_PROVISIONING_PROFILE | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/tradeFuture.mobileprovision
-        env:
-          IOS_PROVISIONING_PROFILE: ${{ secrets.IOS_PROVISIONING_PROFILE }}
+      # - name: Decode and copy provisioning profile
+      #   run: |
+      #     echo $IOS_PROVISIONING_PROFILE | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/tradeFuture.mobileprovision
+      #   env:
+      #     IOS_PROVISIONING_PROFILE: ${{ secrets.IOS_PROVISIONING_PROFILE }}
 
-      - name: Decode and setup certificate
-        run: |
-          echo $IOS_CERTIFICATE_P12 | base64 --decode > ios/certificate.p12
-        env:
-          IOS_CERTIFICATE_P12: ${{ secrets.IOS_CERTIFICATE_P12 }}
+      # - name: Decode and setup certificate
+      #   run: |
+      #     echo $IOS_CERTIFICATE_P12 | base64 --decode > ios/certificate.p12
+      #   env:
+      #     IOS_CERTIFICATE_P12: ${{ secrets.IOS_CERTIFICATE_P12 }}
 
-      - name: Install certificate
+      - name: Install Apple Certificate
         run: |
-          security create-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
-          security default-keychain -s build.keychain
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
-          security import ios/certificate.p12 -t agg -k ~/Library/Keychains/build.keychain -P $IOS_CERTIFICATE_PASSWORD -A
-          security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" build.keychain
-        env:
-          IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
-          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+          echo "${{ secrets.IOS_CERTIFICATE_P12 }}" | base64 --decode > certificate.p12
+          security create-keychain -p "" build.keychain
+          security import certificate.p12 -k ~/Library/Keychains/build.keychain -P "${{ secrets.IOS_CERTIFICATE_PASSWORD }}" -T /usr/bin/codesign
+          security list-keychains -s ~/Library/Keychains/build.keychain
+          security default-keychain -s ~/Library/Keychains/build.keychain
+          security unlock-keychain -p "" ~/Library/Keychains/build.keychain
+
+      - name: Install Apple provisioning profile
+        run: |
+          echo "${{ secrets.IOS_PROVISIONING_PROFILE }}" | base64 --decode > profile.mobileprovision
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles/
+          cp profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+
+      # - name: Install certificate
+      #   run: |
+      #     security create-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+      #     security default-keychain -s build.keychain
+      #     security unlock-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+      #     security import ios/certificate.p12 -t agg -k ~/Library/Keychains/build.keychain -P $IOS_CERTIFICATE_PASSWORD -A
+      #     security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" build.keychain
+      #   env:
+      #     IOS_CERTIFICATE_PASSWORD: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
+      #     KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
 
       - name: Run fastlane build
         run: |
