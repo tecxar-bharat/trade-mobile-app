@@ -18,24 +18,24 @@ jobs:
         with:
           node-version: '18'
 
-      # - name: Install dependencies
-      #   run: yarn install
+      - name: Install dependencies
+        run: yarn install
 
-      # - name: Install CocoaPods
-      #   run: |
-      #     sudo gem install cocoapods
-      #     cd ios
-      #     pod install
+      - name: Install CocoaPods
+        run: |
+          sudo gem install cocoapods
+          cd ios
+          pod install
 
-      # - name: Set up Ruby
-      #   uses: ruby/setup-ruby@v1
-      #   with:
-      #     ruby-version: '2.7'
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
 
-      # - name: Install Fastlane
-      #   run: |
-      #     gem install bundler -v 2.4.22
-      #     bundle install
+      - name: Install Fastlane
+        run: |
+          gem install bundler -v 2.4.22
+          bundle install
 
       - name: Decode and save the .p12 certificate
         run: |
@@ -68,25 +68,22 @@ jobs:
         run: |
           ls ~/Library/MobileDevice/Provisioning\ Profiles/
 
-      # - name: Run fastlane build
-      #   run: |
-      #     cd ios
-      #     bundle exec fastlane build_ios
-      #     cat /Users/runner/Library/Logs/gym/TradeFuture-TradeFuture.log
-      #     mv output ..
-      #     cd ..
-      #   env:
-      #     SIGN_TYPE: 'ad-hoc'
-      #     PROV_PROFILE_NAME: 'tradeFuture'
-      #     APPLE_CERTIFICATE_SIGNING_IDENTITY: 'Apple Distribution: TECXAR CONSULTANTS PRIVATE LIMITED (32864LVP55)'
-      #     DIAWI_TOKEN: 'ayrmyP77RZ13bxeiEJWYQMLNsHY0sjUnRSpkPDzNKl'
-      #     TEAM_ID: '32864LVP55'
+      - name: Run fastlane build
+        run: |
+          cd ios
+          bundle exec fastlane build_ios
+          cat /Users/runner/Library/Logs/gym/TradeFuture-TradeFuture.log
+          mv output ..
+          cd ..
+        env:
+          SIGN_TYPE: 'ad-hoc'
+          PROV_PROFILE_NAME: 'tradeFuture'
+          APPLE_CERTIFICATE_SIGNING_IDENTITY: 'Apple Distribution: TECXAR CONSULTANTS PRIVATE LIMITED (32864LVP55)'
+          DIAWI_TOKEN: 'ayrmyP77RZ13bxeiEJWYQMLNsHY0sjUnRSpkPDzNKl'
+          TEAM_ID: '32864LVP55'
 
-      # - name: Archive build artifacts
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: ios-build
-      #     path: ios/output/package/TradeFuture.ipa
-
-      # APPLE_CERTIFICATE_SIGNING_IDENTITY: 'Apple Distribution: TECXAR CONSULTANTS PRIVATE LIMITED (32864LVP55)'
-      # TEAM_ID: 32864LVP55
+      - name: Archive build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ios-build
+          path: ios/output/package/TradeFuture.ipa
