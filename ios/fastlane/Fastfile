@@ -40,6 +40,9 @@ platform :ios do
       path:"#{project_name}.xcodeproj",
       use_automatic_signing: false,
       profile_name: prov_profile,
+      team_id: teamID,
+      bundle_identifier: "com.tradeFuture.app",
+      code_sign_identity: signing_identity,
     )
 
     build_app(
