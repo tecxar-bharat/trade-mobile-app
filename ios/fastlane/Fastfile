@@ -59,7 +59,8 @@ platform :ios do
         method: export_method,
         stripSwiftSymbols: true,
         teamID: teamID,
-        signingCertificate: signing_identity,
+        signingStyle: "manual",
+        signingCertificate: 'Apple Distribution',
         thinning: "<none>",
         provisioningProfiles: {
           "com.tradeFuture.app" => prov_profile
@@ -67,6 +68,7 @@ platform :ios do
       },
       xcargs: [
         "PROVISIONING_PROFILE_SPECIFIER='#{prov_profile}'",
+        "CODE_SIGN_STYLE=Manual",
         "CODE_SIGN_IDENTITY='#{signing_identity}'",
         "-allowProvisioningUpdates"
       ].join(" ")
