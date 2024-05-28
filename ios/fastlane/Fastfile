@@ -59,7 +59,6 @@ platform :ios do
         method: export_method,
         stripSwiftSymbols: true,
         teamID: teamID,
-        signingStyle: "manual",
         signingCertificate: signing_identity,
         thinning: "<none>",
         provisioningProfiles: {
@@ -68,7 +67,6 @@ platform :ios do
       },
       xcargs: [
         "PROVISIONING_PROFILE_SPECIFIER='#{prov_profile}'",
-        "CODE_SIGN_STYLE=Manual",
         "CODE_SIGN_IDENTITY='#{signing_identity}'",
         "-allowProvisioningUpdates"
       ].join(" ")
