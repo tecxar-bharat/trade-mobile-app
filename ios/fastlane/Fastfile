@@ -52,7 +52,6 @@ platform :ios do
       output_directory: "output/package",
       archive_path: "output/archive",
       export_team_id: teamID,
-      export_xcargs: "-allowProvisioningUpdates",
       export_options: {
         compileBitcode: false,
         uploadBitcode: false,
@@ -70,7 +69,8 @@ platform :ios do
       xcargs: [
         "PROVISIONING_PROFILE_SPECIFIER='#{prov_profile}'",
         "CODE_SIGN_STYLE=Manual",
-        "CODE_SIGN_IDENTITY='#{signing_identity}'"
+        "CODE_SIGN_IDENTITY='#{signing_identity}'",
+        "-allowProvisioningUpdates"
       ].join(" ")
     )
     sh "curl https://upload.diawi.com/ -F token=#{diawi_token} -F file=@./output/package/TradeFuture.ipa"
