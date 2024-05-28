@@ -11,22 +11,22 @@ intermediates_path = "#{cached_derived_data_path}/Build/Intermediates.noindex/Ar
 export_method = 'ad-hoc'
 
 # prov_profile is the name of the provisioning profile - ie: "DevOps Distribution v2"
-# prov_profile = 'tradeFuture'
-prov_profile = ENV['PROV_PROFILE_NAME']
+prov_profile = 'tradeFuture'
+# prov_profile = ENV['PROV_PROFILE_NAME']
 
 # view the profile in finder to get the UUID
 # prov_profile_uuid = ENV["APPLE_PROV_PROFILE_UUID"]
 
 # signing ID will be automatically set by the CI
-signing_identity = ENV["APPLE_CERTIFICATE_SIGNING_IDENTITY"]
-# signing_identity = 'Apple Distribution: TECXAR CONSULTANTS PRIVATE LIMITED (32864LVP55)'
+# signing_identity = ENV["APPLE_CERTIFICATE_SIGNING_IDENTITY"]
+signing_identity = 'Apple Distribution: TECXAR CONSULTANTS PRIVATE LIMITED (32864LVP55)'
 
 
-diawi_token = ENV['DIAWI_TOKEN']
-# diawi_token = 'ayrmyP77RZ13bxeiEJWYQMLNsHY0sjUnRSpkPDzNKl'
+# diawi_token = ENV['DIAWI_TOKEN']
+diawi_token = 'ayrmyP77RZ13bxeiEJWYQMLNsHY0sjUnRSpkPDzNKl'
 
-teamID = ENV['TEAM_ID']
-# teamID = '32864LVP55'
+# teamID = ENV['TEAM_ID']
+teamID = '32864LVP55'
 
 
 default_platform(:ios)
